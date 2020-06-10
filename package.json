@@ -52,7 +52,7 @@
     "dist"
   ],
   "dependencies": {
-    "@compiled/babel-plugin-css-in-js": "^0.3.2",
+    "@compiled/babel-plugin-css-in-js": "^0.4.5",
     "@compiled/css-in-js": "^0.3.2"
   }
 }
