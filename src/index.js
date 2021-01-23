@@ -102,7 +102,8 @@ export default class Mozaika extends React.PureComponent {
     ).fill(0);
   }
 
-  /* Perform initial setup for the gallery layout to properly work. We must do three things to start off the gallery.
+  /**
+   *  Perform initial setup for the gallery layout to properly work. We must do three things to start off the gallery.
    * 1. Initialise the IntersectionObserver and attach the handleIntersection() function. This is used to determine
    *    if the we should attempt to load the next batch of elements.
    *
@@ -353,7 +354,7 @@ export default class Mozaika extends React.PureComponent {
   computeElementStyles(index) {
     const width = Math.round(this.gallery.current.clientWidth / this.columnHeights.length);
 
-    let nextColumn = 0;
+    let nextColumn;
 
     // Strict order enforces that items are rendered in the order they are supplied.
     if (this.props.strictOrder) {
