@@ -1316,9 +1316,9 @@
     postcss-values-parser "^4.0.0"
 
 "@compiled/react@^0.6.0":
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/@compiled/react/-/react-0.6.7.tgz#5f6bd0e8fbc6c382570ace8de029f211b3c3246b"
-  integrity sha512-wzIHhXut0zNW4lcLxnMO1Rm6Zpj53dAqvj64v3OUWwQEQgyM5TW4EA++KBzSixHWPHUegbL4RvqJ0Fu5kl7Mjg==
+  version "0.6.10"
+  resolved "https://registry.yarnpkg.com/@compiled/react/-/react-0.6.10.tgz#140172bd471b89359105696e05ee6f616a352ea7"
+  integrity sha512-0KYg6/kAXDcPOIgvCIOer+BZOQiTHmNTVXX7KYmoeBsnAtTVejWB2XG8DRCaKcbUWLZlHT7x2kpbmZaj2Sni+A==
   dependencies:
     csstype "^3.0.7"
 
