@@ -183,7 +183,7 @@ export default class Mozaika extends React.PureComponent {
 
     if (this.props.streamMode && !deepEqual(prevProps.resetStreamKey, this.props.resetStreamKey)) {
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(this.updateGalleryWith(this.state.data.slice(0, loadBatchSize)));
+      this.setState(this.updateGalleryWith(this.state.data.slice(0, this.props.loadBatchSize)));
     }
 
     if (this.props.data.length > 0 && !deepEqual(prevProps.data, this.props.data)) {
