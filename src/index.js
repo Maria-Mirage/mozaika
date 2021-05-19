@@ -54,21 +54,30 @@ export default class Mozaika extends React.PureComponent {
       ElementProps: PropTypes.object,
       /** The 'id' attribute of the gallery container. */
       id: PropTypes.string,
-      /** The quantity of items that is attempted to be added when gallery attempts to append more elements
+      /** The number of items that is attempted to be added when the gallery attempts to append more elements
        * into the view. */
       loadBatchSize: PropTypes.number,
       /** Colour of the provided loader */
       loaderStrokeColour: PropTypes.string,
       /** The maximum number of columns the gallery can use to display items. */
       maxColumns: PropTypes.number,
+      
+      /** Function that is invoked to load the next batch of data. This function is only
+       * used in stream mode. The function should return a boolean vallue denoting whether
+       * there is more data to come after the present batch or not. Mozaika will attempt
+       * to load more data the next batch if the function true, and will assume the end of
+       * stream was reached otherwise.
+       */
+      onNextBatch: PropTypes.func,
+      
       /** Function callback that is invoked when a layout cycle is complete. The width, height, and computed
        * styles of elements are piped into callback. */
       onLayout: PropTypes.func,
-      /** Flag to determine if we're expecting data to come in as a stream instead of a singular chunk */
-      streamMode: PropTypes.bool,
       /** This key is used to reset a stream flow, if it changes at any point; Mozaika will assume that we begun
        * a new stream order. */
-      resetStreamKey: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+      resetStreamKey: PropTypes.any,
+      /** Flag to determine if we're expecting data to come in as a stream instead of a singular chunk */
+      streamMode: PropTypes.bool,
       /** Forces layout of items to be in the exact order given by the caller. No height optimisations will be
        * carried out if 'strict' order is specified. */
       strictOrder: PropTypes.bool.isRequired
@@ -174,12 +183,7 @@ export default class Mozaika extends React.PureComponent {
 
     if (this.props.streamMode && !deepEqual(prevProps.resetStreamKey, this.props.resetStreamKey)) {
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        data: [],
-        loading: true,
-        maxElementsReached: false,
-        maxDataReached: false
-      });
+      this.setState(this.updateGalleryWith(data.slice(0, loadBatchSize)));
     }
 
     if (this.props.data.length > 0 && !deepEqual(prevProps.data, this.props.data)) {
