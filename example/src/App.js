@@ -9,7 +9,7 @@ export const API = "https://api.mariamiragephotography.com";
 function getData(theme, from) {
   const encodedTheme = encodeURIComponent(theme);
 
-  return fetch(`${DEV_API}/photo?limit=100&theme=${encodedTheme}`  + (from !== null ? `&from=${from}` : ''))
+  return fetch(`${DEV_API}/photo?limit=100&theme=${encodedTheme}`  + (from !== null && typeof from !== 'undefined' ? `&from=${from}` : ''))
     .then(response => (response.json()))
     .then(response => {
       if (!response.status) throw new Error("Failed to load data.");
@@ -53,10 +53,11 @@ const App = () => {
           data={data}
           streamMode
           resetStreamKey={theme}
+          getUniqueIdFromElement={(element) => element.id}
           onNextBatch={() => {
             if (from === null) return false;
 
-            return getData(from).then((result) => {
+            return getData(theme, from).then((result) => {
               setData([...data, ...result.data]);
               setFrom(result.from)
 

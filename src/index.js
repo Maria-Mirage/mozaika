@@ -54,6 +54,9 @@ export default class Mozaika extends React.PureComponent {
       ElementProps: PropTypes.object,
       /** The 'id' attribute of the gallery container. */
       id: PropTypes.string,
+
+      /** Function used to get a unique key from element in order for re-rendering */
+      getUniqueIdFromElement: PropTypes.func,
       /** The number of items that is attempted to be added when the gallery attempts to append more elements
        * into the view. */
       loadBatchSize: PropTypes.number,
@@ -63,7 +66,7 @@ export default class Mozaika extends React.PureComponent {
       maxColumns: PropTypes.number,
       
       /** Function that is invoked to load the next batch of data. This function is only
-       * used in stream mode. The function should return a boolean vallue denoting whether
+       * used in stream mode. The function should return a boolean value denoting whether
        * there is more data to come after the present batch or not. Mozaika will attempt
        * to load more data the next batch if the function true, and will assume the end of
        * stream was reached otherwise.
@@ -95,7 +98,7 @@ export default class Mozaika extends React.PureComponent {
     strictOrder: false
   };
 
-  // TODO: We could parameterize these and let user specify them as props.
+  // TODO: We could parametrize these and let user specify them as props.
   /** The width of each column that is used for the gallery */
   static COLUMN_WIDTH = 300;
 
@@ -181,12 +184,14 @@ export default class Mozaika extends React.PureComponent {
       this.setState(this.updateGalleryWith(this.state.data));
     }
 
+    // We need to call onNextBatch if the key changes and we need to restart our stream.
     if (this.props.streamMode && !deepEqual(prevProps.resetStreamKey, this.props.resetStreamKey)) {
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(this.updateGalleryWith(this.state.data.slice(0, this.props.loadBatchSize)));
+      this.setState(this.updateGalleryWith(this.props.data.slice(0, this.props.loadBatchSize)));
+      return; // return early
     }
 
-    if (this.props.data.length > 0 && !deepEqual(prevProps.data, this.props.data)) {
+    if (!deepEqual(prevProps.data, this.props.data)) {
       if (!this.props.streamMode) {
         const calculatedState = this.updateGalleryWith(this.props.data.slice(0, this.props.loadBatchSize));
 
@@ -441,7 +446,7 @@ export default class Mozaika extends React.PureComponent {
               <Element
                 {...ElementProps}
                 index={index}
-                key={index}
+                key={this.props.getUniqueIdFromElement(element)}
                 data={element}
                 updateCallback={(ref) => {
                   this.updateHeightFromComponent(index, ref.current.clientHeight);
