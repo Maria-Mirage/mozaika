@@ -187,7 +187,9 @@ export default class Mozaika extends React.PureComponent {
     // We need to call onNextBatch if the key changes and we need to restart our stream.
     if (this.props.streamMode && prevProps.resetStreamKey !== this.props.resetStreamKey) {
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(this.updateGalleryWith(this.props.data.slice(0, this.props.loadBatchSize), true));
+      const calculatedState = this.updateGalleryWith(this.props.data.slice(0, this.props.loadBatchSize));
+      this.setState({ ...calculatedState, maxElementsReached: false, maxDataReached: false });
+
       return; // return early
     }
 
@@ -196,7 +198,7 @@ export default class Mozaika extends React.PureComponent {
         const calculatedState = this.updateGalleryWith(this.props.data.slice(0, this.props.loadBatchSize));
 
         // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({ ...calculatedState, maxElementsReached: false });
+        this.setState({ ...calculatedState });
       } else {
         // We'll need to patch in the current data state with the new prop by determining the offset.
         // Example: if current data is of size 50 and prop data is now 100, we need to begin loading
@@ -206,7 +208,7 @@ export default class Mozaika extends React.PureComponent {
         );
 
         // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({ ...calculatedState, maxElementsReached: false });
+        this.setState({ ...calculatedState });
       }
     }
 

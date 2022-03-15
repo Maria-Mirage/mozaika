@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Loader.module.css';
+import styles from './Loader.module.css';
 
 const Loader = React.memo(function Loader({ strokeColour }) {
   return (
@@ -16,7 +16,7 @@ const Loader = React.memo(function Loader({ strokeColour }) {
       <svg
         viewBox='0 0 50 50'
         style={{
-          animation: 'rotate 2s linear infinite',
+          animation: `${styles.rotate} 2s linear infinite`,
           zIndex: 2,
           margin: 'auto',
           width: '50px',
@@ -27,7 +27,7 @@ const Loader = React.memo(function Loader({ strokeColour }) {
           style={{
             stroke: strokeColour,
             strokeLinecap: 'round',
-            animation: 'dash 1.5s ease-in-out infinite'
+            animation: `${styles.dash} 1.5s ease-in-out infinite`
           }}
           className='path'
           cx='25'
