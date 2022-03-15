@@ -8,56 +8,26 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { styled } from '@compiled/react';
-
-const Div = styled.div`
-  width: 100%;
-  display: block;
-  padding: 2em 0;
-  text-align: center;
-
-  svg {
-    animation: rotate 2s linear infinite;
-    z-index: 2;
-    margin: auto;
-    width: 50px;
-    height: 50px;
-  }
-
-  circle {
-    stroke-linecap: round;
-    animation: dash 1.5s ease-in-out infinite;
-  }
-
-  @keyframes rotate {
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  @keyframes dash {
-    0% {
-      stroke-dasharray: 1, 150;
-      stroke-dashoffset: 0;
-    }
-    50% {
-      stroke-dasharray: 90, 150;
-      stroke-dashoffset: -35;
-    }
-    100% {
-      stroke-dasharray: 90, 150;
-      stroke-dashoffset: -124;
-    }
-  }
-`;
+import './Loader.module.css';
 
 const Loader = React.memo(function Loader({ strokeColour }) {
   return (
-    <Div>
-      <svg viewBox='0 0 50 50'>
+    <div style={{ width: '100%', display: 'block', padding: '2em 0', textAlign: 'center' }}>
+      <svg
+        viewBox='0 0 50 50'
+        style={{
+          animation: 'rotate 2s linear infinite',
+          zIndex: 2,
+          margin: 'auto',
+          width: '50px',
+          height: '50px'
+        }}
+      >
         <circle
           style={{
-            stroke: strokeColour
+            stroke: strokeColour,
+            strokeLinecap: 'round',
+            animation: 'dash 1.5s ease-in-out infinite'
           }}
           className='path'
           cx='25'
@@ -67,7 +37,7 @@ const Loader = React.memo(function Loader({ strokeColour }) {
           strokeWidth='5'
         />
       </svg>
-    </Div>
+    </div>
   );
 });
 

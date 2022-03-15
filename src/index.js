@@ -64,7 +64,7 @@ export default class Mozaika extends React.PureComponent {
       loaderStrokeColour: PropTypes.string,
       /** The maximum number of columns the gallery can use to display items. */
       maxColumns: PropTypes.number,
-      
+
       /** Function that is invoked to load the next batch of data. This function is only
        * used in stream mode. The function should return a boolean value denoting whether
        * there is more data to come after the present batch or not. Mozaika will attempt
@@ -72,13 +72,13 @@ export default class Mozaika extends React.PureComponent {
        * stream was reached otherwise.
        */
       onNextBatch: PropTypes.func,
-      
+
       /** Function callback that is invoked when a layout cycle is complete. The width, height, and computed
        * styles of elements are piped into callback. */
       onLayout: PropTypes.func,
       /** This key is used to reset a stream flow, if it changes at any point; Mozaika will assume that we begun
        * a new stream order. */
-      resetStreamKey: PropTypes.any,
+      resetStreamKey: PropTypes.string,
       /** Flag to determine if we're expecting data to come in as a stream instead of a singular chunk */
       streamMode: PropTypes.bool,
       /** Forces layout of items to be in the exact order given by the caller. No height optimisations will be
@@ -185,9 +185,9 @@ export default class Mozaika extends React.PureComponent {
     }
 
     // We need to call onNextBatch if the key changes and we need to restart our stream.
-    if (this.props.streamMode && !deepEqual(prevProps.resetStreamKey, this.props.resetStreamKey)) {
+    if (this.props.streamMode && prevProps.resetStreamKey !== this.props.resetStreamKey) {
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(this.updateGalleryWith(this.props.data.slice(0, this.props.loadBatchSize)));
+      this.setState(this.updateGalleryWith(this.props.data.slice(0, this.props.loadBatchSize), true));
       return; // return early
     }
 
@@ -320,7 +320,7 @@ export default class Mozaika extends React.PureComponent {
     });
   }
 
-  updateGalleryWith(data) {
+  updateGalleryWith(data, forceRecompute = false) {
     const dataCopy = [...data];
     let computedStyles = [...this.state.computedStyles]; // copy over computed styles from old state.
     this.columnHeights = this.getNewColumnHeights();
@@ -330,7 +330,11 @@ export default class Mozaika extends React.PureComponent {
         return this.computeElementStyles(index);
       });
 
-      computedStyles.push(...newStyles);
+      if (forceRecompute) {
+        computedStyles = newStyles;
+      } else {
+        computedStyles.push(...newStyles);
+      }
     } else {
       this.heights = [];
 

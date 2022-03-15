@@ -18,7 +18,7 @@
 export default function deepEqual(left, right) {
   if (left === right) {
     return true;
-  } else if ((typeof left === "object" && left != null) && (typeof right === "object" && right != null)) {
+  } else if (typeof left === 'object' && left != null && typeof right === 'object' && right != null) {
     const leftKeys = Object.keys(left);
     const rightKeys = Object.keys(right);
 
