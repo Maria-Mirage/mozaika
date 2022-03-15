@@ -208,7 +208,7 @@ export default class Mozaika extends React.PureComponent {
         );
 
         // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({ ...calculatedState });
+        this.setState({ ...calculatedState, maxElementsReached: false, maxDataReached: false });
       }
     }
 
