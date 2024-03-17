@@ -5,54 +5,57 @@
   "author": "feds01",
   "license": "MIT",
   "repository": "Maria-Mirage/mozaika",
-  "main": "dist/index.js",
-  "module": "dist/index.modern.js",
   "source": "src/index.js",
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
   "scripts": {
-    "build": "microbundle-crl --no-compress --format modern,cjs",
-    "start": "microbundle-crl watch --no-compress --format modern,cjs",
-    "prepare": "run-s build",
-    "lint": "eslint .",
-    "test": "run-s test:unit test:lint test:build",
-    "test:build": "run-s build",
-    "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
-    "test:watch": "react-scripts test --env=jsdom",
-    "predeploy": "cd example && npm install && npm run build",
-    "deploy": "gh-pages -d example/build"
+    "build": "rollup -c",
+    "start": "rollup --watch -c",
+    "lint": "eslint ."
   },
   "peerDependencies": {
-    "react": "^17.0.0"
+    "react": "^18.0.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "plugin:prettier/recommended"
+    ]
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.3",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-typescript": "^11.1.2",
+    "@types/deep-equal": "^1.0.1",
+    "@types/jest": "^29.5.3",
+    "@types/node": "^20.4.8",
+    "@types/react": "^18.2.19",
+    "@types/react-dom": "^18.2.7",
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.3",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "8.5.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-config-standard-react": "^11.0.1",
-    "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-promise": "^5.2.0",
-    "eslint-plugin-react": "7.29.4",
-    "eslint-plugin-standard": "^5.0.0",
-    "gh-pages": "4.0.0",
-    "microbundle-crl": "^0.13.11",
-    "npm-run-all": "^4.1.5",
+    "eslint": "^8.23.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "prettier": "2.7.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3"
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "rollup": "^3.27.2",
+    "rollup-plugin-dts": "^5.3.1",
+    "rollup-plugin-polyfill-node": "^0.12.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "typescript": "^5.1.6",
+    "typescript-plugin-css-modules": "^5.0.1"
   },
   "dependencies": {
     "@juggle/resize-observer": "^3.3.1",
-    "intersection-observer": "0.12.0",
-    "prop-types": "^15.8.1"
+    "deep-equal": "^2.2.2",
+    "intersection-observer": "0.12.0"
   },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "files": [
     "dist"
-  ]
+  ],
+  "types": "dist/index.d.ts"
 }
