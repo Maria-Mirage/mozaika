@@ -179,6 +179,12 @@ class Mozaika<T, U, K = string> extends React.Component<MozaikaProps<T, U, K>, M
   waitingOnNextBatch: boolean = false;
 
   /**
+   * Whether the component is currently undergoing resizing, this is used to prevent
+   * additional data loading during this.
+   */
+  isResizing: boolean = false;
+
+  /**
    * The IntersectionObserver instance that is used to determine if we should
    * attempt to load the next batch of elements.
    */
@@ -447,7 +453,7 @@ class Mozaika<T, U, K = string> extends React.Component<MozaikaProps<T, U, K>, M
     const isLoading = this.props.loading || this.state.loading;
 
     // If we are loading, or we have no data yet then we can't do anything.
-    if (isLoading || stream.data.length === 0) {
+    if (isLoading || this.isResizing || stream.data.length === 0) {
       return;
     }
 
@@ -468,15 +474,15 @@ class Mozaika<T, U, K = string> extends React.Component<MozaikaProps<T, U, K>, M
         return;
       }
 
-      console.log('invoking onNextBatch()');
       this.waitingOnNextBatch = true;
       onNextBatch();
     } else {
-      console.log('loading more data');
+      const wasWaiting = this.waitingOnNextBatch;
       this.waitingOnNextBatch = false;
       this.setState({
         ...this.updateGalleryWith(this.state.totalElements + this.props.loadBatchSize),
-        allElementsViewed: false
+        allElementsViewed: false,
+        loading: !wasWaiting
       });
     }
   }
@@ -548,9 +554,10 @@ class Mozaika<T, U, K = string> extends React.Component<MozaikaProps<T, U, K>, M
   handleResize = (entries: ResizeObserverEntry[], _: ResizeObserver) => {
     debounce(() => {
       assert(isDef(entries[0]), 'No observed gallery');
-      console.log('resize');
+      const observedWidth = Math.floor(entries[0].contentRect.width);
 
-      if (this._isMounted && this.width !== entries[0].contentRect.width) {
+      if (this._isMounted && this.width !== observedWidth) {
+        this.isResizing = true;
         if (this.props.adjustScroll) {
           // Essentially we are working out the ratio between the old height and
           // the new height of the container and then applying it to the current
@@ -568,10 +575,15 @@ class Mozaika<T, U, K = string> extends React.Component<MozaikaProps<T, U, K>, M
         // when doing some visual updates in it. Using flushSync ensures that the dom will be painted after the states updates happen
         // Related issue - https://github.com/facebook/react/issues/24331
         flushSync(() => {
-          this.setState({
-            ...this.updateGalleryWith(this.state.totalElements, 'visible', 'full'),
-            loading: false
-          });
+          this.setState(
+            {
+              ...this.updateGalleryWith(this.state.totalElements, 'visible', 'full'),
+              loading: false
+            },
+            () => {
+              this.isResizing = false;
+            }
+          );
         });
       }
     }, 500)();
