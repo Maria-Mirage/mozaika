@@ -526,7 +526,7 @@ class Mozaika<T, U, K = string> extends React.Component<MozaikaProps<T, U, K>, M
         } else {
           return this.state.computedStyles[index]!.visibility;
         }
-      })
+      });
 
       return this.computeElementStyle(index, columnHeights, evaluatedVisibility);
     });
@@ -548,7 +548,7 @@ class Mozaika<T, U, K = string> extends React.Component<MozaikaProps<T, U, K>, M
   handleResize = (entries: ResizeObserverEntry[], _: ResizeObserver) => {
     debounce(() => {
       assert(isDef(entries[0]), 'No observed gallery');
-      console.log("resize")
+      console.log('resize');
 
       if (this._isMounted && this.width !== entries[0].contentRect.width) {
         if (this.props.adjustScroll) {

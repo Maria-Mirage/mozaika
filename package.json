@@ -12,7 +12,8 @@
   "scripts": {
     "build": "rollup -c",
     "start": "rollup --watch -c",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "peerDependencies": {
     "react": "^18.0.0"

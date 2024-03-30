@@ -34,7 +34,7 @@ function streamKeyAsString(streamKey: StreamKey): string | null {
 
 const App = () => {
   const [theme, setTheme] = useState<string | null>(null);
-  const [stream, setStream] = useState<MozaikaStream<Photo, string>>({data: [], key: ''});
+  const [stream, setStream] = useState<MozaikaStream<Photo, string>>({ data: [], key: '' });
   const [loading, setLoading] = useState(false);
   const [streamKey, setStreamKey] = useState<StreamKey>({ pos: 'start' });
   const [sidebarWidth, setSidebarWidth] = useState(0);
@@ -107,7 +107,7 @@ const App = () => {
                 width: 20,
                 height: 20,
                 backgroundColor: 'red',
-                borderRadius: '50%',
+                borderRadius: '50%'
               }}
             />
           )}

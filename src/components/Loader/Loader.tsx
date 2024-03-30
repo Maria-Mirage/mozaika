@@ -1,6 +1,6 @@
 /**
  * src/components/Loader.js
- * 
+ *
  * Module description: A simple filler loading animation for the Mozaika gallery.
  *
  * Created on 08/08/2023
@@ -21,7 +21,7 @@ const Loader = React.memo(function Loader({ strokeColour }: LoaderProps) {
       <svg
         viewBox='0 0 50 50'
         style={{
-          animation: `${styles["rotate"]} 2s linear infinite`,
+          animation: `${styles['rotate']} 2s linear infinite`,
           zIndex: 2,
           margin: 'auto',
           width: '50px',
@@ -32,7 +32,7 @@ const Loader = React.memo(function Loader({ strokeColour }: LoaderProps) {
           style={{
             stroke: strokeColour,
             strokeLinecap: 'round',
-            animation: `${styles["dash"]} 1.5s ease-in-out infinite`
+            animation: `${styles['dash']} 1.5s ease-in-out infinite`
           }}
           className='path'
           cx='25'

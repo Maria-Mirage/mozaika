@@ -18,9 +18,9 @@ export const expr = <T>(cb: () => T): T => cb();
  * @param message - The message to throw if the assertion fails
  */
 export function assert(value: unknown, message?: string): asserts value {
-    if (!value) {
-        throw new Error(message ?? 'assertion failed');
-    }
+  if (!value) {
+    throw new Error(message ?? 'assertion failed');
+  }
 }
 
 /**
@@ -30,26 +30,26 @@ export function assert(value: unknown, message?: string): asserts value {
  * @return {Boolean} returns whether the object is null or undefined.
  * */
 export function isDef<T>(obj: T | null | undefined): obj is T {
-    return obj !== null && typeof obj !== 'undefined';
+  return obj !== null && typeof obj !== 'undefined';
 }
 
 /**
  * Create a range of numbers.
- * 
+ *
  * @param start - the start of the range.
  * @param end - the end of the range.
  * @param step - the step of the range.
  * @returns - the range of numbers.
  */
 export function range(start: number, end: number, step = 1): number[] {
-    let index = -1
-    let length = Math.max(Math.ceil((end - start) / (step || 1)), 0)
-    const result = new Array(length)
+  let index = -1;
+  let length = Math.max(Math.ceil((end - start) / (step || 1)), 0);
+  const result = new Array(length);
 
-    while (length--) {
-        result[++index] = start
-        start += step
-      }
+  while (length--) {
+    result[++index] = start;
+    start += step;
+  }
 
-    return result
+  return result;
 }

@@ -5,7 +5,7 @@
  * @return {Boolean} returns whether the object is null or undefined.
  * */
 export function isDef<T>(obj: T | null | undefined): obj is T {
-    return obj !== null && typeof obj !== 'undefined';
+  return obj !== null && typeof obj !== 'undefined';
 }
 
 /**

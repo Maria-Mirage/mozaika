@@ -6,7 +6,7 @@
  * @email <alexander.fedotov.uk@gmail.com>
  */
 
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * debounce prevents a particular function from being called until after a given
@@ -19,26 +19,26 @@ import {useEffect, useState} from 'react';
  */
 
 export default function debounce(fn: () => void, threshold = 100) {
-    let deferTimer: NodeJS.Timeout | null = null;
+  let deferTimer: NodeJS.Timeout | null = null;
 
-    const debounced = () => {
-        if (deferTimer) {
-            clearTimeout(deferTimer);
-        }
+  const debounced = () => {
+    if (deferTimer) {
+      clearTimeout(deferTimer);
+    }
 
-        deferTimer = setTimeout(() => {
-            deferTimer = null;
-            fn();
-        }, threshold);
-    };
+    deferTimer = setTimeout(() => {
+      deferTimer = null;
+      fn();
+    }, threshold);
+  };
 
-    debounced.clearTimeout = () => {
-        if (deferTimer) {
-            clearTimeout(deferTimer);
-        }
-    };
+  debounced.clearTimeout = () => {
+    if (deferTimer) {
+      clearTimeout(deferTimer);
+    }
+  };
 
-    return debounced;
+  return debounced;
 }
 
 /**
@@ -51,33 +51,33 @@ export default function debounce(fn: () => void, threshold = 100) {
  * @returns {Object|String} the de-bounced value.
  * */
 export function useDebounce<T>(value: T, threshold = 100): T {
-    // State and setters for debounced value
-    const [debouncedValue, setDebouncedValue] = useState(value);
+  // State and setters for debounced value
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
-    useEffect(
-        () => {
-            // Set debouncedValue to value (passed in) after the specified delay
-            const handler = setTimeout(() => {
-                setDebouncedValue(value);
-            }, threshold);
+  useEffect(
+    () => {
+      // Set debouncedValue to value (passed in) after the specified delay
+      const handler = setTimeout(() => {
+        setDebouncedValue(value);
+      }, threshold);
 
-            // Return a cleanup function that will be called every time ...
-            // ... useEffect is re-called. useEffect will only be re-called ...
-            // ... if value changes (see the inputs array below).
-            // This is how we prevent debouncedValue from changing if value is ...
-            // ... changed within the delay period. Timeout gets cleared and restarted.
-            // To put it in context, if the user is typing within our app's ...
-            // ... search box, we don't want the debouncedValue to update until ...
-            // ... they've stopped typing for more than 500ms.
-            return () => {
-                clearTimeout(handler);
-            };
-        },
-        // Only re-call effect if value changes
-        // You could also add the "delay" var to inputs array if you ...
-        // ... need to be able to change that dynamically.
-        [threshold, value],
-    );
+      // Return a cleanup function that will be called every time ...
+      // ... useEffect is re-called. useEffect will only be re-called ...
+      // ... if value changes (see the inputs array below).
+      // This is how we prevent debouncedValue from changing if value is ...
+      // ... changed within the delay period. Timeout gets cleared and restarted.
+      // To put it in context, if the user is typing within our app's ...
+      // ... search box, we don't want the debouncedValue to update until ...
+      // ... they've stopped typing for more than 500ms.
+      return () => {
+        clearTimeout(handler);
+      };
+    },
+    // Only re-call effect if value changes
+    // You could also add the "delay" var to inputs array if you ...
+    // ... need to be able to change that dynamically.
+    [threshold, value]
+  );
 
-    return debouncedValue;
+  return debouncedValue;
 }
