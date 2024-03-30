@@ -15,14 +15,41 @@ npm install --save @feds01/mozaika
 ```jsx
 import React, { Component } from 'react';
 
-import Mozaika from 'mozaika';
-import ChildContainer from './../components/ChildContainer';
+import Mozaika, { MozaikaElementProps, MozaikaStream } from 'mozaika';
 
-class Example extends Component {
-  render() {
-    const { data } = this.state;
+type ExampleItem = {
+    id: string;
+    title: string;
+    description: string;
+};
 
-    return <Mozaika data={data} ExplorerElement={ChildContainer} />;
+const ChildContainer = ({ data, updateCallback, style }: MozaikaElementProps<ExampleItem>) => {
+  useEffect(() => {
+    updateCallback();
+  }, []);
+
+  return (
+    <div style={style}>
+      <h1>{data.title}</h1>
+      <p>{data.description}</p>
+    </div>
+  );
+};
+
+
+
+export type ExampleProps = {
+  data: ExampleItem[];
+};
+
+const Example = ({ data }: ExampleProps) => {
+    const [stream, setStream] = useState<MozaikaStream<ExampleItem, string>>({ data, key: '' });
+
+    return <Mozaika
+      stream={stream}
+      getUniqueIdFromElement={(element: ExampleItem) => element.id}
+      ExplorerElement={ChildContainer}
+    />;
   }
 }
 ```
@@ -36,7 +63,7 @@ Mozaika can be customised to a high level of degree via the component props:
 | `adjustScroll`       | Adjust the Y-scroll position when container/window gets resized                                                                                                                                                                                                                                                                                                              | `bool`         | `true`               | `false`                  |
 | `backgroundColour`   | The background colour of the gallery                                                                                                                                                                                                                                                                                                                                         | `string`       | `#0f0f10`            | `false`                  |
 | `children`           | Any content or React Sub-tree that is loaded after the all the content is loaded.                                                                                                                                                                                                                                                                                            | `any`          | N/A                  | `false`                  |
-| `data`               | The data that is used to populate the items that are loaded into the gallery.                                                                                                                                                                                                                                                                                                | `[object]`     | N/A                  | `true`                   |
+| `stream`             | The data that is used to populate the items that are loaded into the gallery.                                                                                                                                                                                                                                                                                                | `[object]`     | N/A                  | `true`                   |
 | `Element`            | The Component/Function Component that is used as an item in the gallery.                                                                                                                                                                                                                                                                                                     | `func\|object` | N/A                  | `true`                   |
 | `ElementProps`       | Any props that should be passed to element objects when appending them into the view.                                                                                                                                                                                                                                                                                        | `object`       | N/A                  | `false`                  |
 | `id`                 | The 'id' attribute of the gallery container.                                                                                                                                                                                                                                                                                                                                 | `string`       | N/A                  | `true`                   |
