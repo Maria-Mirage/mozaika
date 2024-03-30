@@ -16,7 +16,8 @@
     "build": "rollup -c",
     "start": "rollup --watch -c",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepublish": "npm run build"
   },
   "peerDependencies": {
     "react": "^18.0.0"
