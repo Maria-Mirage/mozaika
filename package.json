@@ -10,7 +10,7 @@
   },
   "source": "src/index.js",
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "scripts": {
     "build": "rollup -c",
