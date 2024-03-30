@@ -18,6 +18,11 @@ export type MozaikaElementStyle = {
   visibility: Property.Visibility;
 
   /**
+   * The display property of the element.
+   */
+  display: Property.Display;
+
+  /**
    * The width of the element.
    */
   width: number;
@@ -616,7 +621,8 @@ class Mozaika<T, U, K = string> extends React.Component<MozaikaProps<T, U, K>, M
       width: isEdge ? columnWidth : columnWidth - this.props.columnMargin,
       top,
       height: elementHeight,
-      left: nextColumn * columnWidth + (!isLeftMost ? this.props.columnMargin : 0)
+      left: nextColumn * columnWidth + (!isLeftMost ? this.props.columnMargin : 0),
+      display: 'table'
     };
 
     // Let's update the column height now & the computed styles for this element
