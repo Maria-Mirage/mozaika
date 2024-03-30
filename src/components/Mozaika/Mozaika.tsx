@@ -1,8 +1,8 @@
 import React from 'react';
 import { default as BaseLoader } from './../Loader';
-import debounce from '../../lib/debounce';
 import { assert, expr, isDef, range } from '../../lib/utils';
 import { Property } from 'csstype';
+import debounce from 'lodash.debounce';
 
 // Load in ResizeObserver API if it's not natively supported.
 // @see See [https://caniuse.com/#feat=resizeobserver]
