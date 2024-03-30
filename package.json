@@ -4,7 +4,10 @@
   "description": "A React component which organises an arbitrary number of elements into a neat grid.",
   "author": "feds01",
   "license": "MIT",
-  "repository": "Maria-Mirage/mozaika",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maria-Mirage/mozaika.git"
+  },
   "source": "src/index.js",
   "engines": {
     "node": ">=14"
